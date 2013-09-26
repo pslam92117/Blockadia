@@ -26,7 +26,7 @@ public class BlockadiaMain {
     //TestList.populateModel(model);
     JFrame blockadia = new GameFrame(model, panel);
     blockadia.setVisible(true);
-    blockadia.setResizable(false);
+    blockadia.setResizable(true);
     blockadia.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   }
 }

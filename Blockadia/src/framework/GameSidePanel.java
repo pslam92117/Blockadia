@@ -1,7 +1,6 @@
 package framework;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -11,14 +10,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import framework.GameModel.ListItem;
@@ -40,6 +38,7 @@ public class GameSidePanel extends JPanel implements ActionListener{
 	final GameModel model;
 	final GameController controller;
 	
+	// Initialize button types and names (not visible yet)
 	private JButton modeButton = new JButton("Game");
 	private JButton playPauseButton = new JButton("Play");
 	private JButton resetButton = new JButton("Reset");
@@ -47,12 +46,15 @@ public class GameSidePanel extends JPanel implements ActionListener{
 	private JButton deleteButton = new JButton("Delete");
 	private JButton newButton = new JButton("New");
 	private JButton editButton = new JButton("Edit");
+	private JButton undoButton = new JButton("Undo");
+	private JButton redoButton = new JButton("Redo");
   private JLabel gameNameLabel = new JLabel();
   private JLabel shapePreview = new JLabel();
 	private JTextField gameName = new JTextField("Gimzoball");
 	public static boolean test =true;//TODO:DELETE LATER
 	private ButtonType buttonType;
 
+	// Drop down menu
   public JComboBox<ListItem> components;
   
 	public GameSidePanel(GameModel model, GameController controller){
@@ -74,16 +76,18 @@ public class GameSidePanel extends JPanel implements ActionListener{
 		controlPanel.setLayout(new GridLayout(0, 1));
 		controlPanel.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.LOWERED),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		controlPanel.setBounds(5,5,230,100);
+		controlPanel.setBounds(5,5,230,200); // sub border
 		
 		modeButton.setAlignmentX(CENTER_ALIGNMENT);
 		playPauseButton.setAlignmentX(CENTER_ALIGNMENT);
 		resetButton.setAlignmentX(CENTER_ALIGNMENT);
+		redoButton.setAlignmentX(CENTER_ALIGNMENT);
+		undoButton.setAlignmentX(CENTER_ALIGNMENT);
 		ImageIcon icon = null;
 		Image image=null;
 
-		icon = new ImageIcon("res/side/Build-Icon.png");
-		image=icon.getImage().getScaledInstance(70, 50,java.awt.Image.SCALE_SMOOTH);
+		icon = new ImageIcon("res/side/Settings.png");
+		image=icon.getImage().getScaledInstance(55, 50,java.awt.Image.SCALE_SMOOTH); // size of icon
 		icon.setImage(image);
 		modeButton=new JButton("Build Mode",icon);
 		modeButton.setHorizontalTextPosition(JButton.CENTER);
@@ -91,12 +95,12 @@ public class GameSidePanel extends JPanel implements ActionListener{
 		modeButton.setToolTipText("Click to enter game mode");
 		modeButton.setPreferredSize(new Dimension(80,80));
 		
-		icon = new ImageIcon("res/side/Play-Icon.png");
+		icon = new ImageIcon("res/side/Play.png");
 		image=icon.getImage().getScaledInstance(25,25,java.awt.Image.SCALE_SMOOTH);
 		icon.setImage(image);
 		playPauseButton=new JButton("  Play",icon);
 		playPauseButton.setToolTipText("Click to start the game.");
-		icon = new ImageIcon("res/side/Reset-Icon.png");
+		icon = new ImageIcon("res/side/Refresh.png");
 		image=icon.getImage().getScaledInstance(25,25,java.awt.Image.SCALE_SMOOTH);
 		icon.setImage(image);
 		resetButton=new JButton("Reset",icon);
@@ -121,16 +125,22 @@ public class GameSidePanel extends JPanel implements ActionListener{
 		JPanel optionPanel = new JPanel();
 		optionPanel.setLayout(null);
 		optionPanel.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.LOWERED),
-				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+				BorderFactory.createEmptyBorder(1, 1, 1, 1)));
 		optionPanel.setBounds(5,105,230,345);
+		optionPanel.setPreferredSize(new Dimension(200,500));
+		
+    JScrollPane scroll = new JScrollPane(optionPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, 
+        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    scroll.setBounds(5,250,130,145);
+
 		gameNameLabel = new JLabel("Current Game:");
 		gameName = new JTextField("Gimzoball");
 		gameName.setColumns(10);
 		gameName.setEditable(false);
 		gameName.setToolTipText("To change a game, please click File-> Open/New");
 		gameNameLabel.setToolTipText("To change a game, please click File-> Open/New");
-		gameNameLabel.setBounds(10,5,210,20);
-		gameName.setBounds(10,25,210,25);
+		gameNameLabel.setBounds(10,5,180,20);
+		gameName.setBounds(10,25,180,25);
 		gameNameLabel.setLabelFor(gameName);
 		optionPanel.add(gameNameLabel);
 		optionPanel.add(gameName);
@@ -138,26 +148,26 @@ public class GameSidePanel extends JPanel implements ActionListener{
 		components = new JComboBox<ListItem>(model.getComboModel());
 		components.setMaximumRowCount(30);
 		components.addActionListener(this);
-		components.setBounds(10,70,160,25);
+		components.setBounds(10,70,125,25);
 		JLabel chooseAShape =new JLabel("Choose a Shape:");
 		addButton = new JButton("Add");
 		addButton.setToolTipText("Click to add the selected block shape into the game board");
-		addButton.setBounds(170,70,50,25);
-		chooseAShape.setBounds(10,50,210,20);
+		addButton.setBounds(135,70,60,25);
+		chooseAShape.setBounds(10,50,180,20);
 		optionPanel.add(addButton);
 		optionPanel.add(chooseAShape);
 		optionPanel.add(components);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(0,3));
-		buttonPanel.setBounds(10,97,210,25);
+		buttonPanel.setBounds(10,97,185,25);
 		buttonPanel.add(newButton);
 		buttonPanel.add(editButton);
 		buttonPanel.add(deleteButton);
 		optionPanel.add(buttonPanel);
 		
 		JPanel previewPanel = new JPanel();
-		previewPanel.setBounds(10, 125, 210, 210);
+		previewPanel.setBounds(10, 125, 180, 210);
 		previewPanel.setBorder(BorderFactory.createCompoundBorder(new EtchedBorder(EtchedBorder.LOWERED),
 				BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		previewPanel.setLayout(new BorderLayout());
@@ -166,7 +176,8 @@ public class GameSidePanel extends JPanel implements ActionListener{
 		previewPanel.add(shapePreview,"Center");
 		optionPanel.add(previewPanel);
 
-		add(optionPanel);
+    add(scroll);
+    scroll.setSize(230,345);
 
 	}
 
@@ -177,7 +188,7 @@ public class GameSidePanel extends JPanel implements ActionListener{
 				if(!test){
 					try {
 						buttonRenderer(ButtonType.TEXT_IMAGE, modeButton, "Build Mode", "Click to enter game mode.", 
-								"res/side/Build-Icon.png", new Rectangle(0,0,65, 50));
+								"res/side/Settings.png", new Rectangle(0,0,55, 50));
 						playPauseButton.setEnabled(true);
 						resetButton.setEnabled(true);
 					} catch (Exception e1) {
@@ -188,11 +199,11 @@ public class GameSidePanel extends JPanel implements ActionListener{
 				}else{
 					try {
 						buttonRenderer(ButtonType.TEXT_IMAGE, modeButton, "Game Mode", "Click to enter build mode.", 
-								"res/side/Game-Icon.png", new Rectangle(0,0,65,50));
+								"res/side/Game.png", new Rectangle(0,0,55,50));
 						//1st: stop the game if it is running
 						//2nd: reset the looks of playPauseButton
 						buttonRenderer(ButtonType.TEXT_IMAGE, playPauseButton, "  Play", "Click to start the game.", 
-								"res/side/Play-Icon.png", new Rectangle(0,0,25,25));
+								"res/side/Play.png", new Rectangle(0,0,25,25));
 						playPauseButton.setEnabled(false);
 						resetButton.setEnabled(false);
 					} catch (Exception e1) {
@@ -210,7 +221,7 @@ public class GameSidePanel extends JPanel implements ActionListener{
         if (test) {
 					try {
 						buttonRenderer(ButtonType.TEXT_IMAGE, playPauseButton, "  Stop", "Click to pause the game.", 
-								"res/side/Pause-Icon.png", new Rectangle(0,0,25,25));
+								"res/side/Pause.png", new Rectangle(0,0,25,25));
 					} catch (Exception e1) {
 						System.out.println(e1);
 					}
@@ -219,7 +230,7 @@ public class GameSidePanel extends JPanel implements ActionListener{
         } else {
 					try {
 						buttonRenderer(ButtonType.TEXT_IMAGE, playPauseButton, "  Play", "Click to start the game.", 
-								"res/side/Play-Icon.png", new Rectangle(0,0,25,25));
+								"res/side/Play.png", new Rectangle(0,0,25,25));
 					} catch (Exception e1) {
 						System.out.println(e1);
 					}

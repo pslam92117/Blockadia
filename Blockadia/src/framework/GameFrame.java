@@ -19,28 +19,27 @@ import javax.swing.JScrollPane;
 @SuppressWarnings("serial")
 public class GameFrame  extends JFrame {
 	
-	private GameMenuBar menu;
-	private GameInfoBar infoBar;
-	private GameSidePanel side;
-	private GameModel model;
-	private GameController controller;
+	private GameMenuBar menu;			// Top Menu bar
+	private GameInfoBar infoBar;	// Button info bar
+	private GameSidePanel side;		// Side panel controls
+	private GameModel model;			// Backend (black screen part)
+	private GameController controller;	// Main thread
 
 	public GameFrame(final GameModel argModel, final IGamePanel argPanel) {
-		super("Blockadia");
+		super("Blockadia"); 											// Window Name
 		setLayout(new BorderLayout());
 		
 		model = argModel;
 
 		menu = new GameMenuBar();//TODO: rework on the GameMenuBar constructor
-		setJMenuBar(menu);
-		infoBar = new GameInfoBar();
-		add(infoBar,"South");
+		setJMenuBar(menu);												// Top Menu bar
+		infoBar = new GameInfoBar();							// Button info/status bar
+		add(infoBar,"South"); 										// Position of bar
 		
-		controller = new GameController(model,argPanel);
-		side = new GameSidePanel(model,controller);
-		add((Component) argPanel, "Center");
-		//add(new JScrollPane(side), "East");
-		add(new JScrollPane(side),"East");
+		controller = new GameController(model,argPanel); 
+		side = new GameSidePanel(model,controller); // Side panel
+		add((Component) argPanel, "Center");			// Game area
+		add(new JScrollPane(side),"East"); 				// Position of side panel
 		pack();
 
 		//controller.playTest(0);

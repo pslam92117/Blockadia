@@ -21,21 +21,21 @@ public class GameInfoBar extends JPanel {
 	private static JLabel info;
 	public GameInfoBar(){
 		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(GamePanel.DEFAULT_WIDTH + GameSidePanel.SIDE_PANEL_WIDTH,20));
-		JLabel space = new JLabel(" ");
-		space.setPreferredSize(new Dimension(20,20));
-		add(space,BorderLayout.WEST);
-		info = new JLabel("Welcome to Blockadia!");
-		info.setToolTipText("Game information");
+		setPreferredSize(new Dimension(GamePanel.DEFAULT_WIDTH + GameSidePanel.SIDE_PANEL_WIDTH,20)); // Size of bar (w, h)
+		JLabel space = new JLabel(" ");								// Initialize space variable
+		space.setPreferredSize(new Dimension(10,20)); // Beginning space
+		add(space,BorderLayout.WEST);									// Place space on left west side
+		info = new JLabel("Welcome to Blockadia!");		// Label for button bar
+		info.setToolTipText("Game information");			// Tooltip after hovering over it
 		info.setHorizontalTextPosition(SwingConstants.LEFT);
 		info.setPreferredSize(new Dimension(GamePanel.DEFAULT_WIDTH + GameSidePanel.SIDE_PANEL_WIDTH-60,20));
 		//info.setBorder(BorderFactory.createLineBorder(Color.green, 1));
 		
-	  setBorder(BorderFactory.createEmptyBorder(
+	  setBorder(BorderFactory.createEmptyBorder( // Position of the inside of the bar
 				0, //top
-				0,     //left
+				0, //left
 				0, //bottom
-				0));   //right
+				0));//right
 		add(new JSeparator(JSeparator.HORIZONTAL),
 				BorderLayout.PAGE_START);
 		add(info,BorderLayout.CENTER);
